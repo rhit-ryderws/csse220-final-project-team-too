@@ -8,16 +8,12 @@ import javax.swing.JComponent;
 import model.GameModel;
 
 public class GameComponent extends JComponent {
-
-	
 	
 	private GameModel model;
 
-
 	public GameComponent(GameModel model) {
-	this.model = model;
+		this.model = model;
 	}
-
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -29,5 +25,6 @@ public class GameComponent extends JComponent {
 
 
 	// TODO: draw based on model state
+	
 	}
 }
