@@ -1,5 +1,6 @@
 package app;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import ui.GameWindow;
@@ -11,11 +12,13 @@ import ui.GameWindow;
  * Entry point for the final project.
  */
 public class MainApp {
+
 	
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 		new MainApp().run();
 		});
+
 	}
 	
 	public void run() {
