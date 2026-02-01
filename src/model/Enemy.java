@@ -49,7 +49,7 @@ public class Enemy extends Entity {
 
 	@Override
 	public void update(int worldWidth, int worldHeight) {
-		
+
 		SetLocation(GetLocation()[0] + GetSpeed()[0], GetLocation()[1] + GetSpeed()[1]);
 
 		// Left wall
