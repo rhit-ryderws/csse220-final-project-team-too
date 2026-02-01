@@ -10,11 +10,12 @@ import javax.swing.Timer;
 
 import model.Square;
 import model.GameModel;
+import model.Player;
 
 public class GameComponent extends JComponent {
 	
 
-	private Square square = new Square(80,80);
+	private Player player = new Player(80,80);
 	private Timer timer;
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 200;
@@ -25,7 +26,7 @@ public class GameComponent extends JComponent {
 		this.model = model;
 		
 		timer = new Timer(20, e -> {
-			square.update(WIDTH, HEIGHT);
+			player.update(WIDTH, HEIGHT);
 			repaint();
 			});
 			timer.start();
@@ -34,7 +35,7 @@ public class GameComponent extends JComponent {
 			  @Override
 			  public void keyPressed(KeyEvent e) {
 			    if (e.getKeyCode() == KeyEvent.VK_A) {
-			      square.moveLeft();
+			      player.moveLeft();
 			    }
 			  }
 			});
@@ -43,7 +44,7 @@ public class GameComponent extends JComponent {
 				  @Override
 				  public void keyPressed(KeyEvent e) {
 				    if (e.getKeyCode() == KeyEvent.VK_D) {
-				      square.moveRight();
+				      player.moveRight();
 				    }
 				  }
 				});
@@ -52,7 +53,7 @@ public class GameComponent extends JComponent {
 				  @Override
 				  public void keyPressed(KeyEvent e) {
 				    if (e.getKeyCode() == KeyEvent.VK_W) {
-				      square.moveUp();
+				      player.moveUp();
 				    }
 				  }
 				});
@@ -61,7 +62,7 @@ public class GameComponent extends JComponent {
 					  @Override
 					  public void keyPressed(KeyEvent e) {
 					    if (e.getKeyCode() == KeyEvent.VK_S) {
-					      square.moveDown();
+					      player.moveDown();
 					    }
 					  }
 					});
@@ -71,7 +72,7 @@ public class GameComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
-	square.draw(g2);
+	player.draw(g2);
 
 	// Minimal placeholder to test  it
 	g2.drawString("Final Project Starter: UI is running ✅", 20, 30);
