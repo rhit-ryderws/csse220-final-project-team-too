@@ -43,7 +43,7 @@ public class Player extends Entity{
 		}
 	}
 
-
+	@Override
 	public void update(int worldWidth, int worldHeight) {
 		System.out.println("Updating");
 		
