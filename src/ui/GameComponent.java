@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.Timer;
 
 import model.Square;
+import model.Enemy;
 import model.GameModel;
 import model.Player;
 
@@ -19,6 +20,7 @@ public class GameComponent extends JComponent {
 	private Timer timer;
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = 600;
+	private Enemy enemy = new Enemy(100,100,80,80);
 	
 	private GameModel model;
 
@@ -27,6 +29,7 @@ public class GameComponent extends JComponent {
 		
 		timer = new Timer(20, e -> {
 			player.update(WIDTH, HEIGHT);
+			enemy.update(WIDTH, HEIGHT);
 			repaint();
 			});
 			timer.start();
@@ -75,6 +78,7 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 	player.draw(g2);
+	enemy.draw(g2);
 
 	// Minimal placeholder to test  it
 	g2.drawString("Final Project Starter: UI is running ✅", 20, 30);
