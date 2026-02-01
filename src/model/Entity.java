@@ -34,5 +34,5 @@ public abstract class Entity implements Renderable{
 		System.out.println("Rendering ");
 	}
 	
-	public abstract void update();
+	public abstract void update(int worldWidth, int worldHeight);
 }
