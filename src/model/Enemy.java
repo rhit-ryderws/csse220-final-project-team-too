@@ -53,5 +53,5 @@ public class Enemy extends Entity{
 			y = wh - size[1];
 			speed[1] = -speed[1];
 		}
-	}
+	}//
 }
