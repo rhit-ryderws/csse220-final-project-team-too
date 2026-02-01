@@ -15,7 +15,7 @@ import model.Player;
 public class GameComponent extends JComponent {
 	
 
-	private Player player = new Player(80,80);
+	private Player player = new Player(200,200,80,80);
 	private Timer timer;
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 200;
@@ -35,7 +35,7 @@ public class GameComponent extends JComponent {
 			  @Override
 			  public void keyPressed(KeyEvent e) {
 			    if (e.getKeyCode() == KeyEvent.VK_A) {
-			      player.moveLeft();
+			      player.SetSpeed(-25,0);
 			    }
 			  }
 			});
@@ -44,7 +44,7 @@ public class GameComponent extends JComponent {
 				  @Override
 				  public void keyPressed(KeyEvent e) {
 				    if (e.getKeyCode() == KeyEvent.VK_D) {
-				      player.moveRight();
+				      player.SetSpeed(25,0);
 				    }
 				  }
 				});
@@ -53,7 +53,7 @@ public class GameComponent extends JComponent {
 				  @Override
 				  public void keyPressed(KeyEvent e) {
 				    if (e.getKeyCode() == KeyEvent.VK_W) {
-				      player.moveUp();
+				      player.SetSpeed(0, 25);;
 				    }
 				  }
 				});
@@ -62,7 +62,7 @@ public class GameComponent extends JComponent {
 					  @Override
 					  public void keyPressed(KeyEvent e) {
 					    if (e.getKeyCode() == KeyEvent.VK_S) {
-					      player.moveDown();
+					      player.SetSpeed(0,-25);
 					    }
 					  }
 					});
