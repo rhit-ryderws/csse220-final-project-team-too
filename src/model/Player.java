@@ -16,6 +16,7 @@ public class Player extends Entity{
 	
 	public Player(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
+		SetSpeed(0,0);
 		loadSpriteOnce();
 		}
 
@@ -45,8 +46,6 @@ public class Player extends Entity{
 
 	@Override
 	public void update(int worldWidth, int worldHeight) {
-		System.out.println("Updating");
-		
 		// move first
 				SetLocation(GetLocation()[0]+GetSpeed()[0], 
 						GetLocation()[1]+GetSpeed()[1]);

@@ -31,6 +31,8 @@ public class GameComponent extends JComponent {
 			});
 			timer.start();
 		
+		setFocusable(true);
+			
 		addKeyListener(new KeyAdapter() {
 			  @Override
 			  public void keyPressed(KeyEvent e) {
@@ -53,16 +55,16 @@ public class GameComponent extends JComponent {
 				  @Override
 				  public void keyPressed(KeyEvent e) {
 				    if (e.getKeyCode() == KeyEvent.VK_W) {
-				      player.SetSpeed(0, 25);;
+				      player.SetSpeed(0, -25);;
 				    }
 				  }
 				});
 				
-				addKeyListener(new KeyAdapter() {
+			addKeyListener(new KeyAdapter() {
 					  @Override
 					  public void keyPressed(KeyEvent e) {
 					    if (e.getKeyCode() == KeyEvent.VK_S) {
-					      player.SetSpeed(0,-25);
+					      player.SetSpeed(0,25);
 					    }
 					  }
 					});
