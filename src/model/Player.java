@@ -49,8 +49,6 @@ public class Player extends Entity {
 		// move first
 		SetLocation(GetLocation()[0] + GetSpeed()[0], GetLocation()[1] + GetSpeed()[1]);
 
-		SetSpeed(0, 0);
-
 		// Left wall
 		if (GetLocation()[0] < 0) {
 			SetLocation(0, GetLocation()[1]); // clamp
