@@ -17,8 +17,8 @@ public class GameComponent extends JComponent {
 
 	private Player player = new Player(200,200,80,80);
 	private Timer timer;
-	public static final int WIDTH = 500;
-	public static final int HEIGHT = 200;
+	public static final int WIDTH = 600;
+	public static final int HEIGHT = 600;
 	
 	private GameModel model;
 
