@@ -28,7 +28,7 @@ public class Enemy extends Entity{
 	}
 	
 	@Override
-	public void update() {
+	public void update(int ww, int wh) {
 		// move first
 		int x = position[0] + speed[0];
 		int y = position[1] + speed[1];
@@ -39,8 +39,8 @@ public class Enemy extends Entity{
 			speed[0] = -speed[0];
 		}
 		// Right wall
-		else if (x + size[0] > 600) {
-			x = 600 - size[0];
+		else if (x + size[0] > ww) {
+			x = ww - size[0];
 			speed[0] = -speed[0];
 		}
 		// Top wall
@@ -49,8 +49,8 @@ public class Enemy extends Entity{
 			speed[1] = -speed[1];
 		}
 		// Bottom wall
-		else if (y + size[1] > 600) {
-			y = 600 - size[1];
+		else if (y + size[1] > wh) {
+			y = wh - size[1];
 			speed[1] = -speed[1];
 		}
 	}
