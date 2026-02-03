@@ -21,12 +21,18 @@ public class GameComponent extends JComponent {
 	public static final int HEIGHT = 600;
 	private Enemy enemy = new Enemy(100, 100, 80, 80);
 
+	private boolean W;
+	private boolean A;
+	private boolean S;
+	private boolean D;
+
 	private GameModel model;
 
 	public GameComponent(GameModel model) {
 		this.model = model;
 
 		timer = new Timer(20, e -> {
+			playerKeys();
 			player.update(WIDTH, HEIGHT);
 			enemy.update(WIDTH, HEIGHT);
 			repaint();
@@ -38,38 +44,60 @@ public class GameComponent extends JComponent {
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_A) {
-					player.SetSpeed(-25, 0);
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_A:
+					A = true;
+					break;
+				case KeyEvent.VK_D:
+					D = true;
+					break;
+				case KeyEvent.VK_W:
+					W = true;
+					break;
+				case KeyEvent.VK_S:
+					S = true;
+					break;
 				}
 			}
 		});
 
 		addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_D) {
-					player.SetSpeed(25, 0);
+			public void keyReleased(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_A:
+					A = false;
+					break;
+				case KeyEvent.VK_D:
+					D = false;
+					break;
+				case KeyEvent.VK_W:
+					W = false;
+					break;
+				case KeyEvent.VK_S:
+					S = false;
+					break;
 				}
 			}
 		});
 
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_W) {
-					player.SetSpeed(0, -25);
-				}
-			}
-		});
+	}
 
-		addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_S) {
-					player.SetSpeed(0, 25);
-				}
-			}
-		});
+	private void playerKeys() {
+		if (S) {
+			player.SetSpeed(player.GetSpeed()[0], 10);
+		} else if (W) {
+			player.SetSpeed(player.GetSpeed()[0], -10);
+		} else {
+			player.SetSpeed(player.GetSpeed()[0], 0);
+		}
+		if (D) {
+			player.SetSpeed(10, player.GetSpeed()[1]);
+		} else if (A) {
+			player.SetSpeed(-10, player.GetSpeed()[1]);
+		} else {
+			player.SetSpeed(0, player.GetSpeed()[1]);
+		}
 	}
 
 	@Override

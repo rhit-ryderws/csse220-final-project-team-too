@@ -26,7 +26,7 @@ public class Player extends Entity {
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("ChatGPT_Survivor.png"));
+			sprite = ImageIO.read(Square.class.getResource("Steve.png"));
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
@@ -48,8 +48,6 @@ public class Player extends Entity {
 	public void update(int worldWidth, int worldHeight) {
 		// move first
 		SetLocation(GetLocation()[0] + GetSpeed()[0], GetLocation()[1] + GetSpeed()[1]);
-
-		SetSpeed(0, 0);
 
 		// Left wall
 		if (GetLocation()[0] < 0) {
