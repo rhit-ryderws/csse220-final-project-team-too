@@ -26,7 +26,7 @@ public class Player extends Entity {
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("ChatGPT_Survivor.png"));
+			sprite = ImageIO.read(Square.class.getResource("Steve.png"));
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}

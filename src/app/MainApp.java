@@ -18,7 +18,6 @@ public class MainApp {
 		SwingUtilities.invokeLater(() -> {
 			new MainApp().run();
 		});
-
 	}
 
 	public void run() {
