@@ -29,7 +29,7 @@ public class Enemy extends Entity {
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("ChatGPT_Zombie.png"));
+			sprite = ImageIO.read(Square.class.getResource("GreatestFear.png"));
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
