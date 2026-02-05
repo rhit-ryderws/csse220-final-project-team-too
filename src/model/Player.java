@@ -70,6 +70,9 @@ public class Player extends Entity {
 			SetLocation(GetLocation()[0], worldHeight - GetSize()[1]);
 			SetSpeed(GetSpeed()[0], 0);
 		}
+		//Running Collisions
+		int[] collision = Collide.getCollideWall("Player", GetLocation(), GetSize());
+		SetLocation(GetLocation()[0] - collision[0], GetLocation()[1] - collision[1]);
 	}
 
 }

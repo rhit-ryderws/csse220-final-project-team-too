@@ -73,5 +73,14 @@ public class Enemy extends Entity {
 			SetLocation(GetLocation()[0], worldHeight - GetSize()[1]);
 			SetSpeed(GetSpeed()[0], -GetSpeed()[1]);
 		}
-	}//
+		//Running Collisions
+				int[] collision = Collide.getCollideWall("Enemy", GetLocation(), GetSize());
+				SetLocation(GetLocation()[0] - collision[0], GetLocation()[1] - collision[1]);
+				if(collision[0] != 0) {
+					SetSpeed(-GetSpeed()[0], GetSpeed()[1]);
+				}
+				if(collision[1] != 0) {
+					SetSpeed(GetSpeed()[0], -GetSpeed()[1]);
+				}
+	}
 }
