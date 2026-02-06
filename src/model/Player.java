@@ -12,11 +12,17 @@ public class Player extends Entity {
 
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
+	private String name;
+	private int[] start_location;
 
 	public Player(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
 		SetSpeed(0, 0);
 		loadSpriteOnce();
+		
+		int[] location = {xl,yl};
+		int[] size = {xs,ys};
+		this.name = Collide.addEntity("Player", location, size);
 	}
 
 	private static void loadSpriteOnce() {
@@ -42,6 +48,10 @@ public class Player extends Entity {
 			g2.setColor(Color.RED);
 			g2.fillRect(GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1]);
 		}
+	}
+	
+	public void setSpawn(int[] location) {
+		start_location = location;
 	}
 
 	@Override
@@ -71,8 +81,15 @@ public class Player extends Entity {
 			SetSpeed(GetSpeed()[0], 0);
 		}
 		//Running Collisions
-		int[] collision = Collide.getCollideWall("Player", GetLocation(), GetSize());
+		int[] collision = Collide.getCollideWall(this.name, GetLocation(), GetSize());
 		SetLocation(GetLocation()[0] - collision[0], GetLocation()[1] - collision[1]);
+		
+		Collide.update(this.name, GetLocation(), GetSize());
+		
+		int[] dead = Collide.getCollideEnemy(this.name, GetLocation(), GetSize());
+		if(!(dead[0]==0&&dead[1]==0)) {
+			SetLocation(start_location[0],start_location[1]);
+		}
 	}
 
 }

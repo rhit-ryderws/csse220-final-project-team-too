@@ -39,32 +39,7 @@ public class GameComponent extends JComponent {
 		this.model = model;
 
 		// Reading from .txt file
-		int row = 0;
-		try {
-			Scanner scanner = new Scanner(new File("level1.txt"));
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				for (int col = 0; col < line.length(); col++) {
-					char c = line.charAt(col);
-
-					if (c == 'P') {
-						player = new Player(col*TILE_SIZE, row*TILE_SIZE, 40, 40);
-
-					} else if(c == 'E') {
-						Enemy enemy = new Enemy(col*TILE_SIZE, row*TILE_SIZE, 40, 40);
-						enemies.add(enemy);
-					} else if(c == 'W') {
-						Wall wall = new Wall(col*TILE_SIZE, row*TILE_SIZE, TILE_SIZE);
-						walls.add(wall);
-					}
-				}
-
-				row++;
-			}
-			scanner.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("level1.txt not found");
-		}
+		loadLevel(1);
 
 		//Setting up timer
 		timer = new Timer(20, e -> {
@@ -123,18 +98,48 @@ public class GameComponent extends JComponent {
 
 	private void playerKeys() {
 		if (S) {
-			player.SetSpeed(player.GetSpeed()[0], 10);
+			player.SetSpeed(player.GetSpeed()[0], 4);
 		} else if (W) {
-			player.SetSpeed(player.GetSpeed()[0], -10);
+			player.SetSpeed(player.GetSpeed()[0], -4);
 		} else {
 			player.SetSpeed(player.GetSpeed()[0], 0);
 		}
 		if (D) {
-			player.SetSpeed(10, player.GetSpeed()[1]);
+			player.SetSpeed(4, player.GetSpeed()[1]);
 		} else if (A) {
-			player.SetSpeed(-10, player.GetSpeed()[1]);
+			player.SetSpeed(-4, player.GetSpeed()[1]);
 		} else {
 			player.SetSpeed(0, player.GetSpeed()[1]);
+		}
+	}
+	
+	private void loadLevel(int n) {
+		int row = 0;
+		try {
+			Scanner scanner = new Scanner(new File("level" + n + ".txt"));
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				for (int col = 0; col < line.length(); col++) {
+					char c = line.charAt(col);
+
+					if (c == 'P') {
+						player = new Player(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
+						int[] spawn = {col*TILE_SIZE + 5,row*TILE_SIZE + 5};
+						player.setSpawn(spawn);
+					} else if(c == 'E') {
+						Enemy enemy = new Enemy(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
+						enemies.add(enemy);
+					} else if(c == 'W') {
+						Wall wall = new Wall(col*TILE_SIZE, row*TILE_SIZE, TILE_SIZE);
+						walls.add(wall);
+					}
+				}
+
+				row++;
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("level1.txt not found");
 		}
 	}
 
@@ -149,11 +154,5 @@ public class GameComponent extends JComponent {
 		for(Wall wall : walls) {
 			wall.draw(g2);
 		}
-
-		// Minimal placeholder to test it
-		g2.drawString("Final Project Starter: UI is running ✅", 20, 30);
-
-		// TODO: draw based on model state
-
 	}
 }

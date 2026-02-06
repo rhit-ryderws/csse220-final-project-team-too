@@ -11,6 +11,8 @@ public class Wall{
 	int x_location;
 	int y_location;
 	int side;
+	private String name;
+	
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 
@@ -23,7 +25,7 @@ public class Wall{
 		int[] sides = {side,side};
 		
 		loadSpriteOnce();
-		Collide.addEntity("Wall", location, sides);
+		this.name = Collide.addEntity("Wall", location, sides);
 	}
 	
 	private static void loadSpriteOnce() {
