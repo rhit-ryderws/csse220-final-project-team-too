@@ -181,6 +181,7 @@ public class Collide {
 				// location of the entity is reset to
 				// the new calculated location.
 				if ((dy!=0)||(dx!=0)) {
+					System.out.println("Hit!");
 					return true;
 				}
 			}

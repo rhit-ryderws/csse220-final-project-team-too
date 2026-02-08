@@ -43,13 +43,18 @@ public class GameComponent extends JComponent {
 		// Reading from .txt file
 		loadLevel(2);
 
-		//Setting up timer
+		// Setting up timer
 		timer = new Timer(20, e -> {
 			playerKeys();
 			player.update(WIDTH, HEIGHT);
-			for(Enemy enemy : enemies) {
+			for (Enemy enemy : enemies) {
 				enemy.update(WIDTH, HEIGHT);
-			}			
+			}
+			if (gems.size() != 0) {
+				for (Gem gem : gems) {
+					gem.update(WIDTH, HEIGHT);
+				}
+			}
 			repaint();
 		});
 		timer.start();
@@ -114,7 +119,7 @@ public class GameComponent extends JComponent {
 			player.SetSpeed(0, player.GetSpeed()[1]);
 		}
 	}
-	
+
 	private void loadLevel(int n) {
 		int row = 0;
 		try {
@@ -125,15 +130,18 @@ public class GameComponent extends JComponent {
 					char c = line.charAt(col);
 
 					if (c == 'P') {
-						player = new Player(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
-						int[] spawn = {col*TILE_SIZE + 5,row*TILE_SIZE + 5};
+						player = new Player(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
+						int[] spawn = { col * TILE_SIZE + 5, row * TILE_SIZE + 5 };
 						player.setSpawn(spawn);
-					} else if(c == 'E') {
-						Enemy enemy = new Enemy(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
+					} else if (c == 'E') {
+						Enemy enemy = new Enemy(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
 						enemies.add(enemy);
-					} else if(c == 'W') {
-						Wall wall = new Wall(col*TILE_SIZE, row*TILE_SIZE, TILE_SIZE);
+					} else if (c == 'W') {
+						Wall wall = new Wall(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE);
 						walls.add(wall);
+					} else if (c == 'G') {
+						Gem gem = new Gem(col * TILE_SIZE + 13, row * TILE_SIZE + 13, 24, 24);
+						gems.add(gem);
 					}
 				}
 
@@ -150,19 +158,20 @@ public class GameComponent extends JComponent {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		player.draw(g2);
-		for(Enemy enemy : enemies) {
+		for (Enemy enemy : enemies) {
 			enemy.draw(g2);
 		}
-		for(Wall wall : walls) {
+		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
-		
-		for (Gem gem : gems) {
-			if (gem.isCollected() == false) {
-				gem.draw(g2);
-			}
-			else {
-				gems.remove(gem);
+
+		if (gems.size() != 0) {
+			for (Gem gem : gems) {
+				if (gem.isCollected() == false) {
+					gem.draw(g2);
+				} else {
+					gems.remove(gem);
+				}
 			}
 		}
 	}

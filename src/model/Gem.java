@@ -23,10 +23,6 @@ public class Gem extends Entity{
 		super(xl, yl, xs, ys);
 		
 		loadSpriteOnce();
-		
-		int[] location = {xl,yl};
-		int[] size = {xs,ys};
-		this.name = Collide.addEntity("Gem", location, size);
 	}
 	
 	private static void loadSpriteOnce() {
@@ -57,29 +53,10 @@ public class Gem extends Entity{
 	@Override
 	public void update(int worldWidth, int worldHeight) {
 
-		setCollected(Collide.getCollidePlayer(this.name, GetLocation(), GetSize()));
+		this.collected = Collide.getCollidePlayer(this.name, GetLocation(), GetSize());
 	}
 
 	public boolean isCollected() {
-		return collected;
+		return this.collected;
 	}
-
-	public boolean setCollected(boolean collected) {
-		this.collected = collected;
-		return collected;
-	}
-
-	public static boolean isTriedLoad() {
-		return triedLoad;
-	}
-
-	public static void setTriedLoad(boolean triedLoad) {
-		Gem.triedLoad = triedLoad;
-	}
-
-
-	
-	
-
-	
 }
