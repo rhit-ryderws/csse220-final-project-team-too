@@ -1,7 +1,10 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -10,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import model.Square;
@@ -27,6 +33,8 @@ public class GameComponent extends JComponent {
 	public static final int TILE_SIZE = 50;
 	private ArrayList<Enemy> enemies = new ArrayList<>();
 	private ArrayList<Wall> walls = new ArrayList<>();
+	private Rectangle rect;
+	private JLabel label;
 
 	private boolean W;
 	private boolean A;
@@ -41,13 +49,13 @@ public class GameComponent extends JComponent {
 		// Reading from .txt file
 		loadLevel(2);
 
-		//Setting up timer
+		// Setting up timer
 		timer = new Timer(20, e -> {
 			playerKeys();
 			player.update(WIDTH, HEIGHT);
-			for(Enemy enemy : enemies) {
+			for (Enemy enemy : enemies) {
 				enemy.update(WIDTH, HEIGHT);
-			}			
+			}
 			repaint();
 		});
 		timer.start();
@@ -112,7 +120,7 @@ public class GameComponent extends JComponent {
 			player.SetSpeed(0, player.GetSpeed()[1]);
 		}
 	}
-	
+
 	private void loadLevel(int n) {
 		int row = 0;
 		try {
@@ -123,14 +131,14 @@ public class GameComponent extends JComponent {
 					char c = line.charAt(col);
 
 					if (c == 'P') {
-						player = new Player(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
-						int[] spawn = {col*TILE_SIZE + 5,row*TILE_SIZE + 5};
+						player = new Player(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
+						int[] spawn = { col * TILE_SIZE + 5, row * TILE_SIZE + 5 };
 						player.setSpawn(spawn);
-					} else if(c == 'E') {
-						Enemy enemy = new Enemy(col*TILE_SIZE + 5, row*TILE_SIZE + 5, 40, 40);
+					} else if (c == 'E') {
+						Enemy enemy = new Enemy(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
 						enemies.add(enemy);
-					} else if(c == 'W') {
-						Wall wall = new Wall(col*TILE_SIZE, row*TILE_SIZE, TILE_SIZE);
+					} else if (c == 'W') {
+						Wall wall = new Wall(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE);
 						walls.add(wall);
 					}
 				}
@@ -143,16 +151,33 @@ public class GameComponent extends JComponent {
 		}
 	}
 
+	private void displayLives(Graphics2D g2d) {
+		rect = new Rectangle(50, 5, 100, 40);
+		g2d.setColor(Color.WHITE);
+		g2d.fill(rect);
+		g2d.draw(rect);
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Arial", Font.BOLD, 10));
+		g2d.drawString("Lives: ", 55, 30);
+		String out = "" + player.getLives();
+		g2d.drawString(out, 90, 30);
+		
+		
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		player.draw(g2);
-		for(Enemy enemy : enemies) {
+		for (Enemy enemy : enemies) {
 			enemy.draw(g2);
 		}
-		for(Wall wall : walls) {
+		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
+		Graphics2D g2d = (Graphics2D) g;
+		this.displayLives(g2d);
+
 	}
 }
