@@ -13,13 +13,25 @@ public class Enemy extends Entity {
 	private int[] size = GetSize();
 	private int[] position = GetLocation();
 
+	private String name;
+	
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 
 	public Enemy(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
-		SetSpeed(4, 5);
+		if((int)Math.floor(Math.random()*2) == 1){
+			SetSpeed(5,0);
+		} else {
+			SetSpeed(0,5);
+		}
+		
+//		SetSpeed((int)Math.floor(Math.random()*10), (int)Math.floor(Math.random()*10));
 		loadSpriteOnce();
+		
+		int[] location = {xl,yl};
+		int[] size = {xs,ys};
+		this.name = Collide.addEntity("Enemy", location, size);
 	}
 
 	private static void loadSpriteOnce() {
@@ -73,5 +85,24 @@ public class Enemy extends Entity {
 			SetLocation(GetLocation()[0], worldHeight - GetSize()[1]);
 			SetSpeed(GetSpeed()[0], -GetSpeed()[1]);
 		}
-	}//
+		//Running Collisions
+				int[] collision = Collide.getCollideWall(this.name, GetLocation(), GetSize());
+				SetLocation(GetLocation()[0] - collision[0], GetLocation()[1] - collision[1]);
+				if(collision[0] != 0) {
+					SetSpeed(-GetSpeed()[0], GetSpeed()[1]);
+				}
+				if(collision[1] != 0) {
+					SetSpeed(GetSpeed()[0], -GetSpeed()[1]);
+				}
+//				int[] hitEnemy = Collide.getCollideEnemy(this.name, GetLocation(), GetSize());
+//				if(hitEnemy[0] != 0) {
+//					SetSpeed(-GetSpeed()[0], GetSpeed()[1]);
+//				}
+//				if(hitEnemy[1] != 0) {
+//					SetSpeed(GetSpeed()[0], -GetSpeed()[1]);
+//				}
+//				
+				
+		Collide.update(this.name, GetLocation(), GetSize());
+	}
 }
