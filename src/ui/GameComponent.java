@@ -32,11 +32,11 @@ public class GameComponent extends JComponent {
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = 600;
 	public static final int TILE_SIZE = 50;
-	private ArrayList<Enemy> enemies = new ArrayList<>();
-	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Enemy> enemies;
+	private ArrayList<Wall> walls;
 	private Rectangle rect;
 	private JLabel label;
-	private ArrayList<Gem> gems = new ArrayList<>();
+	private ArrayList<Gem> gems;
 
 	private boolean W;
 	private boolean A;
@@ -64,6 +64,8 @@ public class GameComponent extends JComponent {
 				}
 			}
 			repaint();
+			
+			gameEnd();
 		});
 		timer.start();
 
@@ -129,6 +131,9 @@ public class GameComponent extends JComponent {
 	}
 
 	private void loadLevel(int n) {
+		enemies = new ArrayList<>();
+		walls = new ArrayList<>();
+		gems = new ArrayList<>();
 		int row = 0;
 		try {
 			Scanner scanner = new Scanner(new File("level" + n + ".txt"));
@@ -171,8 +176,13 @@ public class GameComponent extends JComponent {
 		g2d.drawString("Lives: ", 55, 30);
 		String out = "" + player.getLives();
 		g2d.drawString(out, 90, 30);
-		
-		
+	}
+	
+	private void gameEnd() {
+		if(player.getLives() == 0) {
+			loadLevel(0);
+			player.setLives(0);
+		}
 	}
 
 	@Override
