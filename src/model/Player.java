@@ -31,6 +31,10 @@ public class Player extends Entity {
 		return lives;
 	}
 	
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+	
 	private static void loadSpriteOnce() {
 		if (triedLoad)
 			return;
