@@ -104,7 +104,7 @@ public class Collide {
 //		}
 	}
 
-	public static int[] getCollideEnemy(String type, int[] location, int[] size) {
+	public static boolean getCollideEnemy(String type, int[] location, int[] size) {
 		int[] location_current = location;
 		// Iterate through list of entities
 		for (String entity : movers.keySet()) {
@@ -137,18 +137,13 @@ public class Collide {
 				// Once figuring out the displacement needed to get out of the block, the
 				// location of the entity is reset to
 				// the new calculated location.
-				if ((Math.abs(dx) > Math.abs(dy))&&(dy!=0)) {
-					dx = 0;
-				} else if ((Math.abs(dx) < Math.abs(dy))&&(dx!=0)) {
-					dy = 0;
+				if ((dy!=0)||(dx!=0)) {
+					return true;
 				}
-				int[] new_location = { location_current[0] - dx, location_current[1] - dy };
-				location_current = new_location;
 			}
 		}
 		// Converting the final location to dx and dy, so that they can shift the final
 		// output
-		int[] out = { location[0] - location_current[0], location[1] - location_current[1] };
-		return out;
+		return false;
 	}
 }

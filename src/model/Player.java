@@ -86,8 +86,7 @@ public class Player extends Entity {
 		
 		Collide.update(this.name, GetLocation(), GetSize());
 		
-		int[] dead = Collide.getCollideEnemy(this.name, GetLocation(), GetSize());
-		if(!(dead[0]==0&&dead[1]==0)) {
+		if(Collide.getCollideEnemy(this.name, GetLocation(), GetSize())) {
 			SetLocation(start_location[0],start_location[1]);
 		}
 	}

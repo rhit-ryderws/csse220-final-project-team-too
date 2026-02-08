@@ -39,7 +39,7 @@ public class GameComponent extends JComponent {
 		this.model = model;
 
 		// Reading from .txt file
-		loadLevel(1);
+		loadLevel(2);
 
 		//Setting up timer
 		timer = new Timer(20, e -> {
