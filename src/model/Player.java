@@ -15,6 +15,7 @@ public class Player extends Entity {
 	private String name;
 	private int[] start_location;
 	private int lives;
+	private int score;
 
 	public Player(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
@@ -26,13 +27,22 @@ public class Player extends Entity {
 		this.name = Collide.addEntity("Player", location, size);
 		
 		this.lives = 3;
+		this.score = 0;
 	}
 	public int getLives() {
 		return lives;
 	}
 	
+	public int getScore() {
+		return score;
+	}
+	
 	public void setLives(int lives) {
 		this.lives = lives;
+	}
+	
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	private static void loadSpriteOnce() {

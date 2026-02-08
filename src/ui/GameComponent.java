@@ -178,6 +178,18 @@ public class GameComponent extends JComponent {
 		g2d.drawString(out, 90, 30);
 	}
 	
+	private void displayScore(Graphics2D g2d) {
+		rect = new Rectangle(100, 5, 70, 40);
+		g2d.setColor(Color.WHITE);
+		g2d.fill(rect);
+		g2d.draw(rect);
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Arial", Font.BOLD, 10));
+		g2d.drawString("Score: ", 105, 30);
+		String out = "" + player.getScore();
+		g2d.drawString(out, 140, 30);
+	}
+	
 	private void gameEnd() {
 		if(player.getLives() == 0) {
 			loadLevel(0);
@@ -197,6 +209,7 @@ public class GameComponent extends JComponent {
 			wall.draw(g2);
 		}
 		this.displayLives(g2);
+		this.displayScore(g2);
 
 
 		if (gems.size() != 0) {
@@ -204,6 +217,7 @@ public class GameComponent extends JComponent {
 				if (gem.isCollected() == false) {
 					gem.draw(g2);
 				} else {
+					player.setScore(player.getScore() + 1);
 					gems.remove(gem);
 				}
 			}
