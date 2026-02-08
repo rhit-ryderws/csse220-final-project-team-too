@@ -146,4 +146,48 @@ public class Collide {
 		// output
 		return false;
 	}
+	
+	public static boolean getCollidePlayer(String type, int[] location, int[] size) {
+		int[] location_current = location;
+		// Iterate through list of entities
+		for (String entity : movers.keySet()) {
+			if (entity.substring(0, 4).equals("Play")&&(!entity.equals(type))) {
+				int dx = 0;
+				int dy = 0;
+				// Getting the specific wall's data, listed as described above
+				int[] enemy = movers.get(entity);
+				// Making sure the entity is close enough to the wall to possibly collide
+				if (((enemy[0] - size[0] < location_current[0]) && (enemy[0] + enemy[2] > location_current[0]))
+						&& ((enemy[1] - size[1] < location_current[1])
+								&& (enemy[1] + enemy[3] > location_current[1]))) {
+					// Check to see if the block collides at the top of the wall
+					if ((enemy[1] + enemy[3] / 2 > location_current[1] + size[1] / 2)
+							&& (location_current[1] + size[1] > enemy[1])) {
+						dy += location_current[1] + size[1] - enemy[1];
+					} else if ((enemy[1] + enemy[3] / 2 < location_current[1] + size[1] / 2) // check bottom
+							&& (enemy[1] + enemy[3] > location_current[1])) {
+						dy += location_current[1] - (enemy[1] + enemy[3]);
+					}
+					// Check to see if the block collides at the left of the wall
+					if ((enemy[0] + enemy[2] / 2 > location_current[0] + size[0] / 2)
+							&& (location_current[0] + size[0] > enemy[0])) {
+						dx += location_current[0] + size[0] - enemy[0];
+					} else if ((enemy[0] + enemy[2] / 2 < location_current[0] + size[0] / 2) // check right
+							&& (enemy[0] + enemy[2] > location_current[0])) {
+						dx += location_current[0] - (enemy[0] + enemy[2]);
+					}
+				}
+				// Once figuring out the displacement needed to get out of the block, the
+				// location of the entity is reset to
+				// the new calculated location.
+				if ((dy!=0)||(dx!=0)) {
+					System.out.println("Hit!");
+					return true;
+				}
+			}
+		}
+		// Converting the final location to dx and dy, so that they can shift the final
+		// output
+		return false;
+	}
 }

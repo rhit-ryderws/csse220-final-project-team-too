@@ -22,6 +22,7 @@ import model.Square;
 import model.Wall;
 import model.Enemy;
 import model.GameModel;
+import model.Gem;
 import model.Player;
 
 public class GameComponent extends JComponent {
@@ -35,6 +36,7 @@ public class GameComponent extends JComponent {
 	private ArrayList<Wall> walls = new ArrayList<>();
 	private Rectangle rect;
 	private JLabel label;
+	private ArrayList<Gem> gems = new ArrayList<>();
 
 	private boolean W;
 	private boolean A;
@@ -55,6 +57,11 @@ public class GameComponent extends JComponent {
 			player.update(WIDTH, HEIGHT);
 			for (Enemy enemy : enemies) {
 				enemy.update(WIDTH, HEIGHT);
+			}
+			if (gems.size() != 0) {
+				for (Gem gem : gems) {
+					gem.update(WIDTH, HEIGHT);
+				}
 			}
 			repaint();
 		});
@@ -140,6 +147,9 @@ public class GameComponent extends JComponent {
 					} else if (c == 'W') {
 						Wall wall = new Wall(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE);
 						walls.add(wall);
+					} else if (c == 'G') {
+						Gem gem = new Gem(col * TILE_SIZE + 13, row * TILE_SIZE + 13, 24, 24);
+						gems.add(gem);
 					}
 				}
 
@@ -179,5 +189,15 @@ public class GameComponent extends JComponent {
 		Graphics2D g2d = (Graphics2D) g;
 		this.displayLives(g2d);
 
+
+		if (gems.size() != 0) {
+			for (Gem gem : gems) {
+				if (gem.isCollected() == false) {
+					gem.draw(g2);
+				} else {
+					gems.remove(gem);
+				}
+			}
+		}
 	}
 }
