@@ -16,6 +16,7 @@ import model.Square;
 import model.Wall;
 import model.Enemy;
 import model.GameModel;
+import model.Gem;
 import model.Player;
 
 public class GameComponent extends JComponent {
@@ -27,6 +28,7 @@ public class GameComponent extends JComponent {
 	public static final int TILE_SIZE = 50;
 	private ArrayList<Enemy> enemies = new ArrayList<>();
 	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Gem> gems = new ArrayList<>();
 
 	private boolean W;
 	private boolean A;
@@ -153,6 +155,15 @@ public class GameComponent extends JComponent {
 		}
 		for(Wall wall : walls) {
 			wall.draw(g2);
+		}
+		
+		for (Gem gem : gems) {
+			if (gem.isCollected() == false) {
+				gem.draw(g2);
+			}
+			else {
+				gems.remove(gem);
+			}
 		}
 	}
 }
