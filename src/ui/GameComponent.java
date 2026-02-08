@@ -186,8 +186,7 @@ public class GameComponent extends JComponent {
 		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
-		Graphics2D g2d = (Graphics2D) g;
-		this.displayLives(g2d);
+		this.displayLives(g2);
 
 
 		if (gems.size() != 0) {
