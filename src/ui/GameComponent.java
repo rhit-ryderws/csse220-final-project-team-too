@@ -1,7 +1,10 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -10,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import model.Square;
@@ -28,6 +34,8 @@ public class GameComponent extends JComponent {
 	public static final int TILE_SIZE = 50;
 	private ArrayList<Enemy> enemies = new ArrayList<>();
 	private ArrayList<Wall> walls = new ArrayList<>();
+	private Rectangle rect;
+	private JLabel label;
 	private ArrayList<Gem> gems = new ArrayList<>();
 
 	private boolean W;
@@ -153,6 +161,20 @@ public class GameComponent extends JComponent {
 		}
 	}
 
+	private void displayLives(Graphics2D g2d) {
+		rect = new Rectangle(50, 5, 100, 40);
+		g2d.setColor(Color.WHITE);
+		g2d.fill(rect);
+		g2d.draw(rect);
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Arial", Font.BOLD, 10));
+		g2d.drawString("Lives: ", 55, 30);
+		String out = "" + player.getLives();
+		g2d.drawString(out, 90, 30);
+		
+		
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -164,6 +186,9 @@ public class GameComponent extends JComponent {
 		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
+		Graphics2D g2d = (Graphics2D) g;
+		this.displayLives(g2d);
+
 
 		if (gems.size() != 0) {
 			for (Gem gem : gems) {

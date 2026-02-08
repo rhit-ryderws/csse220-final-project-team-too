@@ -14,6 +14,7 @@ public class Player extends Entity {
 	private static boolean triedLoad = false;
 	private String name;
 	private int[] start_location;
+	private int lives;
 
 	public Player(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
@@ -23,8 +24,13 @@ public class Player extends Entity {
 		int[] location = {xl,yl};
 		int[] size = {xs,ys};
 		this.name = Collide.addEntity("Player", location, size);
+		
+		this.lives = 3;
 	}
-
+	public int getLives() {
+		return lives;
+	}
+	
 	private static void loadSpriteOnce() {
 		if (triedLoad)
 			return;
@@ -88,6 +94,7 @@ public class Player extends Entity {
 		
 		if(Collide.getCollideEnemy(this.name, GetLocation(), GetSize())) {
 			SetLocation(start_location[0],start_location[1]);
+			lives--;
 		}
 	}
 
