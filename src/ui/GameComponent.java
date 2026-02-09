@@ -20,6 +20,7 @@ import javax.swing.Timer;
 
 import model.Square;
 import model.Wall;
+import model.Collide;
 import model.Enemy;
 import model.GameModel;
 import model.Gem;
@@ -32,11 +33,13 @@ public class GameComponent extends JComponent {
 	public static final int WIDTH = 600;
 	public static final int HEIGHT = 600;
 	public static final int TILE_SIZE = 50;
-	private ArrayList<Enemy> enemies;
-	private ArrayList<Wall> walls;
+	private ArrayList<Enemy> enemies = new ArrayList<>();
+	private ArrayList<Wall> walls = new ArrayList<>();
 	private Rectangle rect;
 	private JLabel label;
-	private ArrayList<Gem> gems;
+	private ArrayList<Gem> gems = new ArrayList<>();
+	private int level = 1;
+	private int current_lives = 3;
 
 	private boolean W;
 	private boolean A;
@@ -49,11 +52,16 @@ public class GameComponent extends JComponent {
 		this.model = model;
 
 		// Reading from .txt file
-		loadLevel(2);
+		loadLevel(1);
 
 		// Setting up timer
 		timer = new Timer(20, e -> {
 			playerKeys();
+			if(player.getScore() == 5) {
+				level++;
+				current_lives = player.getLives();
+				loadLevel(level);
+			}
 			player.update(WIDTH, HEIGHT);
 			for (Enemy enemy : enemies) {
 				enemy.update(WIDTH, HEIGHT);
@@ -107,6 +115,9 @@ public class GameComponent extends JComponent {
 				case KeyEvent.VK_S:
 					S = false;
 					break;
+				case KeyEvent.VK_R:
+					current_lives = 3;
+					loadLevel(1);
 				}
 			}
 		});
@@ -131,9 +142,10 @@ public class GameComponent extends JComponent {
 	}
 
 	private void loadLevel(int n) {
-		enemies = new ArrayList<>();
-		walls = new ArrayList<>();
-		gems = new ArrayList<>();
+		enemies.clear();
+		walls.clear();
+		gems.clear();
+		Collide.reset();
 		int row = 0;
 		try {
 			Scanner scanner = new Scanner(new File("level" + n + ".txt"));
@@ -146,6 +158,7 @@ public class GameComponent extends JComponent {
 						player = new Player(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
 						int[] spawn = { col * TILE_SIZE + 5, row * TILE_SIZE + 5 };
 						player.setSpawn(spawn);
+						player.setLives(current_lives);
 					} else if (c == 'E') {
 						Enemy enemy = new Enemy(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
 						enemies.add(enemy);
@@ -192,6 +205,7 @@ public class GameComponent extends JComponent {
 	
 	private void gameEnd() {
 		if(player.getLives() == 0) {
+			level = 1;
 			loadLevel(0);
 			player.setLives(0);
 		}
@@ -202,25 +216,24 @@ public class GameComponent extends JComponent {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		player.draw(g2);
+		if (gems.size() != 0) {
+			for (Gem gem : gems) {
+				if (gem.isCollected() == false) {
+					gem.draw(g2);
+				} else if(!gem.isScored()){
+					player.setScore(player.getScore() + 1);
+					gem.Scored();
+				}
+			}
+		}
 		for (Enemy enemy : enemies) {
 			enemy.draw(g2);
 		}
 		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
+		
 		this.displayLives(g2);
 		this.displayScore(g2);
-
-
-		if (gems.size() != 0) {
-			for (Gem gem : gems) {
-				if (gem.isCollected() == false) {
-					gem.draw(g2);
-				} else {
-					player.setScore(player.getScore() + 1);
-					gems.remove(gem);
-				}
-			}
-		}
 	}
 }

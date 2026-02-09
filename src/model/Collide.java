@@ -103,6 +103,11 @@ public class Collide {
 //			System.out.println("x: " + location[0] + "  y: "+location[1]);
 //		}
 	}
+	
+	public static void reset() {
+		walls.clear();
+		movers.clear();
+	}
 
 	public static boolean getCollideEnemy(String type, int[] location, int[] size) {
 		int[] location_current = location;

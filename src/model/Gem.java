@@ -12,6 +12,7 @@ public class Gem extends Entity{
 	private int[] size = GetSize();
 	private int[] position = GetLocation();
 	private boolean collected = false;
+	private boolean scored = false;
 
 	private String name;
 	
@@ -52,11 +53,20 @@ public class Gem extends Entity{
 	
 	@Override
 	public void update(int worldWidth, int worldHeight) {
-
+		if(!this.collected) {
 		this.collected = Collide.getCollidePlayer(this.name, GetLocation(), GetSize());
+		}
 	}
 
 	public boolean isCollected() {
 		return this.collected;
+	}
+	
+	public boolean isScored() {
+		return this.scored;
+	}
+	
+	public void Scored() {
+		this.scored = true;
 	}
 }
