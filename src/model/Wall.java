@@ -35,7 +35,8 @@ public class Wall{
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("Wall.png"));
+			sprite = ImageIO.read(Square.class.getResource("Sprites.png"));
+			sprite = sprite.getSubimage(5, 101, 25, 25);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}

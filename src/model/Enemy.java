@@ -16,6 +16,10 @@ public class Enemy extends Entity {
 	private String name;
 	
 	private static BufferedImage sprite = null;
+	private static BufferedImage up = null;
+	private static BufferedImage down = null;
+	private static BufferedImage left = null;
+	private static BufferedImage right = null;
 	private static boolean triedLoad = false;
 
 	public Enemy(int xl, int yl, int xs, int ys) {
@@ -41,7 +45,11 @@ public class Enemy extends Entity {
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("GreatestFear.png"));
+			sprite = ImageIO.read(Square.class.getResource("Sprites.png"));
+			up = sprite.getSubimage(104, 67, 20, 20);
+			down = sprite.getSubimage(36, 73, 20, 20);
+			left = sprite.getSubimage(3, 68, 20, 20);
+			right = sprite.getSubimage(73, 72, 20, 20);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
@@ -50,7 +58,15 @@ public class Enemy extends Entity {
 	public void draw(Graphics2D g2) {
 		if (sprite != null) {
 			// sprite replaces the circle
-			g2.drawImage(sprite, GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1], null);
+			if(GetSpeed()[0] > 0) {
+				g2.drawImage(right, GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1], null);
+			} else if(GetSpeed()[0] < 0) {
+				g2.drawImage(left, GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1], null);
+			} else if(GetSpeed()[1] > 0) {
+				g2.drawImage(down, GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1], null);
+			} else {
+				g2.drawImage(up, GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1], null);
+			}
 
 		} else {
 			// fallback if sprite failed to load

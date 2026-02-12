@@ -131,10 +131,12 @@ public class GameComponent extends JComponent {
 				case KeyEvent.VK_S:
 					S = false;
 					break;
-				case KeyEvent.VK_E:
+				case KeyEvent.VK_SPACE:
 					TempWall newWall = player.placeWall();
-					if(newWall!=null) tempwalls.add(newWall);
-					else {}
+					if (newWall != null)
+						tempwalls.add(newWall);
+					else {
+					}
 					break;
 				case KeyEvent.VK_R:
 					current_lives = 3;
@@ -242,6 +244,8 @@ public class GameComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(new Color(60,60,60));
+        g2.fillRect(0, 0, 600, 600);   // filled rectangle
 		for (Trap trap : traps) {
 			trap.draw(g2);
 		}
@@ -259,11 +263,11 @@ public class GameComponent extends JComponent {
 		for (Enemy enemy : enemies) {
 			enemy.draw(g2);
 		}
-		for (Wall wall : walls) {
-			wall.draw(g2);
-		}
 		for (TempWall tempWall : tempwalls) {
 			tempWall.draw(g2);
+		}
+		for (Wall wall : walls) {
+			wall.draw(g2);
 		}
 
 		this.displayLives(g2);

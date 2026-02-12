@@ -44,8 +44,8 @@ public class TempWall {
 		triedLoad = true;
 
 		try {
-
-			sprite = ImageIO.read(Square.class.getResource("TempWall.png"));
+			sprite = ImageIO.read(Square.class.getResource("Sprites.png"));
+			sprite = sprite.getSubimage(37, 101, 25, 25);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}

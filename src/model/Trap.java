@@ -35,13 +35,15 @@ public class Trap extends Entity {
 
 		try {
 
-			sprite1 = ImageIO.read(Square.class.getResource("Trap.png"));
+			sprite1 = ImageIO.read(Square.class.getResource("Sprites.png"));
+			sprite1 = sprite1.getSubimage(102, 101, 20, 20);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite1 = null;
 		}
 		try {
 
-			sprite2 = ImageIO.read(Square.class.getResource("Trap.png"));
+			sprite2 = ImageIO.read(Square.class.getResource("Sprites.png"));
+			sprite2 = sprite2.getSubimage(6, 135, 20, 20);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite2 = null;
 		}
