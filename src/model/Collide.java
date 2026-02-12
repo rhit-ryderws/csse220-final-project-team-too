@@ -108,6 +108,11 @@ public class Collide {
 		walls.clear();
 		movers.clear();
 	}
+	
+	public static void remove(String gone) {
+			walls.remove(gone);
+			movers.remove(gone);
+	}
 
 	public static boolean getCollideEnemy(String type, int[] location, int[] size) {
 		int[] location_current = location;
@@ -168,26 +173,22 @@ public class Collide {
 					// Check to see if the block collides at the top of the wall
 					if ((enemy[1] + enemy[3] / 2 > location_current[1] + size[1] / 2)
 							&& (location_current[1] + size[1] > enemy[1])) {
-						dy += location_current[1] + size[1] - enemy[1];
+						return true;
 					} else if ((enemy[1] + enemy[3] / 2 < location_current[1] + size[1] / 2) // check bottom
 							&& (enemy[1] + enemy[3] > location_current[1])) {
-						dy += location_current[1] - (enemy[1] + enemy[3]);
+						return true;
 					}
 					// Check to see if the block collides at the left of the wall
 					if ((enemy[0] + enemy[2] / 2 > location_current[0] + size[0] / 2)
 							&& (location_current[0] + size[0] > enemy[0])) {
-						dx += location_current[0] + size[0] - enemy[0];
+						return true;
 					} else if ((enemy[0] + enemy[2] / 2 < location_current[0] + size[0] / 2) // check right
 							&& (enemy[0] + enemy[2] > location_current[0])) {
-						dx += location_current[0] - (enemy[0] + enemy[2]);
+						return true;
 					}
-				}
-				// Once figuring out the displacement needed to get out of the block, the
-				// location of the entity is reset to
-				// the new calculated location.
-				if ((dy!=0)||(dx!=0)) {
-					System.out.println("Hit!");
-					return true;
+					if ((enemy[0] + enemy[2]==location[0]+size[0])&&(enemy[1] + enemy[3]==location[1]+size[1])) {
+						return true;
+					}
 				}
 			}
 		}

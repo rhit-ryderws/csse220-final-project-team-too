@@ -33,7 +33,8 @@ public class Gem extends Entity{
 
 		try {
 
-			sprite = ImageIO.read(Square.class.getResource("Gem.png"));
+			sprite = ImageIO.read(Square.class.getResource("Sprites.png"));
+			sprite = sprite.getSubimage(75, 105, 12, 12);
 		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
