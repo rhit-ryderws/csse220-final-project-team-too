@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import model.Square;
+import model.TempWall;
+import model.Trap;
 import model.Wall;
 import model.Collide;
 import model.Enemy;
@@ -38,6 +40,8 @@ public class GameComponent extends JComponent {
 	private Rectangle rect;
 	private JLabel label;
 	private ArrayList<Gem> gems = new ArrayList<>();
+	private ArrayList<Trap> traps = new ArrayList<>();
+	private ArrayList<TempWall> tempwalls = new ArrayList<>();
 	private int level = 1;
 	private int current_lives = 3;
 
@@ -52,14 +56,23 @@ public class GameComponent extends JComponent {
 		this.model = model;
 
 		// Reading from .txt file
-		loadLevel(1);
+		loadLevel(level);
 
 		// Setting up timer
 		timer = new Timer(20, e -> {
 			playerKeys();
-			if(player.getScore() == 5) {
+			if (current_lives != player.getLives()) {
+				for (Trap trap : traps) {
+					trap.reset();
+				}
+				for (TempWall tempWall : tempwalls) {
+					tempWall.remove();
+				}
+				tempwalls.clear();
+			}
+			current_lives = player.getLives();
+			if (player.getScore() == 5) {
 				level++;
-				current_lives = player.getLives();
 				loadLevel(level);
 			}
 			player.update(WIDTH, HEIGHT);
@@ -71,8 +84,11 @@ public class GameComponent extends JComponent {
 					gem.update(WIDTH, HEIGHT);
 				}
 			}
+			for (Trap trap : traps) {
+				trap.update(WIDTH, HEIGHT);
+			}
 			repaint();
-			
+
 			gameEnd();
 		});
 		timer.start();
@@ -115,9 +131,15 @@ public class GameComponent extends JComponent {
 				case KeyEvent.VK_S:
 					S = false;
 					break;
+				case KeyEvent.VK_E:
+					TempWall newWall = player.placeWall();
+					if(newWall!=null) tempwalls.add(newWall);
+					else {}
+					break;
 				case KeyEvent.VK_R:
 					current_lives = 3;
 					loadLevel(1);
+					break;
 				}
 			}
 		});
@@ -145,6 +167,8 @@ public class GameComponent extends JComponent {
 		enemies.clear();
 		walls.clear();
 		gems.clear();
+		traps.clear();
+		tempwalls.clear();
 		Collide.reset();
 		int row = 0;
 		try {
@@ -168,6 +192,9 @@ public class GameComponent extends JComponent {
 					} else if (c == 'G') {
 						Gem gem = new Gem(col * TILE_SIZE + 13, row * TILE_SIZE + 13, 24, 24);
 						gems.add(gem);
+					} else if (c == 'T') {
+						Trap trap = new Trap(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
+						traps.add(trap);
 					}
 				}
 
@@ -190,7 +217,7 @@ public class GameComponent extends JComponent {
 		String out = "" + player.getLives();
 		g2d.drawString(out, 90, 30);
 	}
-	
+
 	private void displayScore(Graphics2D g2d) {
 		rect = new Rectangle(100, 5, 70, 40);
 		g2d.setColor(Color.WHITE);
@@ -202,9 +229,9 @@ public class GameComponent extends JComponent {
 		String out = "" + player.getScore();
 		g2d.drawString(out, 140, 30);
 	}
-	
+
 	private void gameEnd() {
-		if(player.getLives() == 0) {
+		if (player.getLives() == 0) {
 			level = 1;
 			loadLevel(0);
 			player.setLives(0);
@@ -215,12 +242,15 @@ public class GameComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		for (Trap trap : traps) {
+			trap.draw(g2);
+		}
 		player.draw(g2);
 		if (gems.size() != 0) {
 			for (Gem gem : gems) {
 				if (gem.isCollected() == false) {
 					gem.draw(g2);
-				} else if(!gem.isScored()){
+				} else if (!gem.isScored()) {
 					player.setScore(player.getScore() + 1);
 					gem.Scored();
 				}
@@ -232,7 +262,10 @@ public class GameComponent extends JComponent {
 		for (Wall wall : walls) {
 			wall.draw(g2);
 		}
-		
+		for (TempWall tempWall : tempwalls) {
+			tempWall.draw(g2);
+		}
+
 		this.displayLives(g2);
 		this.displayScore(g2);
 	}

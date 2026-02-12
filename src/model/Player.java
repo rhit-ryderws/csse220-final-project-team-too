@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -16,35 +17,38 @@ public class Player extends Entity {
 	private int[] start_location;
 	private int lives;
 	private int score;
+	private String direction = "DOWN";
+	private int wallCount = 0;
 
 	public Player(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
 		SetSpeed(0, 0);
 		loadSpriteOnce();
-		
-		int[] location = {xl,yl};
-		int[] size = {xs,ys};
+
+		int[] location = { xl, yl };
+		int[] size = { xs, ys };
 		this.name = Collide.addEntity("Player", location, size);
-		
+
 		this.lives = 3;
 		this.score = 0;
 	}
+
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public int getScore() {
 		return score;
 	}
-	
+
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
-	
+
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	private static void loadSpriteOnce() {
 		if (triedLoad)
 			return;
@@ -69,13 +73,41 @@ public class Player extends Entity {
 			g2.fillRect(GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1]);
 		}
 	}
-	
+
 	public void setSpawn(int[] location) {
 		start_location = location;
 	}
 
+	public TempWall placeWall() {
+		if (wallCount == 0 && GetSpeed()[0] == 0 && GetSpeed()[1] == 0) {
+			TempWall tempWall;
+			wallCount = 100;
+			if(direction == "UP") {
+				tempWall = new TempWall(GetLocation()[0] - 5, GetLocation()[1] - 50, 50);
+			} else if (direction == "DOWN") {
+				tempWall = new TempWall(GetLocation()[0] - 5, GetLocation()[1] + GetSize()[1], 50);
+			} else if (direction == "RIGHT") {
+				tempWall = new TempWall(GetLocation()[0] + GetSize()[0], GetLocation()[1] - 5, 50);
+			} else {
+				tempWall = new TempWall(GetLocation()[0] - 50, GetLocation()[1] - 5, 50);
+			}
+			return tempWall;
+		}
+		return null;
+	}
+
 	@Override
 	public void update(int worldWidth, int worldHeight) {
+		if (GetSpeed()[0] > 0) {
+			direction = "RIGHT";
+		} else if (GetSpeed()[0] < 0) {
+			direction = "LEFT";
+		} else if (GetSpeed()[1] < 0) {
+			direction = "UP";
+		} else if (GetSpeed()[1] > 0) {
+			direction = "DOWN";
+		}
+
 		// move first
 		SetLocation(GetLocation()[0] + GetSpeed()[0], GetLocation()[1] + GetSpeed()[1]);
 
@@ -100,15 +132,18 @@ public class Player extends Entity {
 			SetLocation(GetLocation()[0], worldHeight - GetSize()[1]);
 			SetSpeed(GetSpeed()[0], 0);
 		}
-		//Running Collisions
+		// Running Collisions
 		int[] collision = Collide.getCollideWall(this.name, GetLocation(), GetSize());
 		SetLocation(GetLocation()[0] - collision[0], GetLocation()[1] - collision[1]);
-		
+
 		Collide.update(this.name, GetLocation(), GetSize());
-		
-		if(Collide.getCollideEnemy(this.name, GetLocation(), GetSize())) {
-			SetLocation(start_location[0],start_location[1]);
+
+		if (Collide.getCollideEnemy(this.name, GetLocation(), GetSize())) {
+			SetLocation(start_location[0], start_location[1]);
 			lives--;
+		}
+		if(wallCount > 0) {
+		wallCount--;
 		}
 	}
 
