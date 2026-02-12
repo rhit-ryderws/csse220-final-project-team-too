@@ -30,12 +30,10 @@ public class TempWall {
 		
 		loadSpriteOnce();
 		this.name = Collide.addEntity("Wall", location, sides);
-		System.out.println(this.name);
 	}
 	
 	public void remove() {
 		Collide.remove(name);
-		System.out.println(this.name);
 	}
 	
 	private static void loadSpriteOnce() {
