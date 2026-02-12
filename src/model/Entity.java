@@ -1,6 +1,6 @@
 package model;
 
-public abstract class Entity implements Renderable {
+public abstract class Entity{
 	private int[] speed; // speed[0] = x_speed; speed[1] = y_speed
 	private int[] location; // location[0] = x_location; location[0] = y_location
 	private int[] size; // size[0] = x_size; size[1] = y_size
@@ -32,11 +32,6 @@ public abstract class Entity implements Renderable {
 
 	public int[] GetSize() {
 		return size;
-	}
-
-	@Override
-	public void render() {
-		System.out.println("Rendering ");
 	}
 
 	public abstract void update(int worldWidth, int worldHeight);

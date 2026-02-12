@@ -32,8 +32,8 @@ public class GameComponent extends JComponent {
 
 	private Player player;
 	private Timer timer;
-	public static final int WIDTH = 600;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 614;
+	public static final int HEIGHT = 636;
 	public static final int TILE_SIZE = 50;
 	private ArrayList<Enemy> enemies = new ArrayList<>();
 	private ArrayList<Wall> walls = new ArrayList<>();
