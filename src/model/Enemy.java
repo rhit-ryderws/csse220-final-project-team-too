@@ -102,7 +102,7 @@ public class Enemy extends Entity {
 		} else {
 			// fallback if sprite failed to load
 			g2.setColor(Color.BLUE);
-			g2.fillRect(position[0], position[1], size[0], size[1]);
+			g2.fillRect(GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1]);
 		}
 	}
 	

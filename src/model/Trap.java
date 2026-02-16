@@ -85,7 +85,7 @@ public class Trap extends Entity {
 
 			} else {
 				// fallback if sprite failed to load
-				g2.setColor(Color.lightGray);
+				g2.setColor(Color.WHITE);
 				g2.fillRect(position[0], position[1], size[0], size[1]);
 			}
 		}
@@ -96,7 +96,7 @@ public class Trap extends Entity {
 
 			} else {
 				// fallback if sprite failed to load
-				g2.setColor(Color.darkGray);
+				g2.setColor(Color.lightGray);
 				g2.fillRect(position[0], position[1], size[0], size[1]);
 			}
 		}

@@ -24,7 +24,6 @@ import model.Trap;
 import model.Wall;
 import model.Collide;
 import model.Enemy;
-import model.GameModel;
 import model.Gem;
 import model.Player;
 
@@ -50,10 +49,7 @@ public class GameComponent extends JComponent {
 	private boolean S;
 	private boolean D;
 
-	private GameModel model;
-
-	public GameComponent(GameModel model) {
-		this.model = model;
+	public GameComponent() {
 
 		// Reading from .txt file
 		loadLevel(level);

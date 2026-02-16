@@ -105,7 +105,7 @@ public class Player extends Entity {
 			}
 		} else {
 			// fallback if sprite failed to load
-			g2.setColor(Color.RED);
+			g2.setColor(Color.ORANGE);
 			g2.fillRect(GetLocation()[0], GetLocation()[1], GetSize()[0], GetSize()[1]);
 		}
 	}
