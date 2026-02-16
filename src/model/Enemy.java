@@ -7,6 +7,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class: Enemy
+ * @author Team Too
+ * <br>Purpose: Used to hold enemy constants and contain methods to make the
+ * <br>			zombies move, show up on screen,
+ * <br>Restrictions: Cannot run the timer for constant positioning updates.
+ * <br>For example: 
+ * <pre>
+ *    Enemy e = new Enemy(col * TILE_SIZE + 5, row * TILE_SIZE + 5, 40, 40);
+ * </pre>
+ */
 public class Enemy extends Entity {
 
 	private int[] speed = GetSpeed();
@@ -22,6 +33,18 @@ public class Enemy extends Entity {
 	private static BufferedImage right = null;
 	private static boolean triedLoad = false;
 
+	/**
+	 * ensures: the params are declared to the default super values; The location and size arrays are created using the params as well, which 
+	 * 			are then used to assign the enemy variable to a new collidable entity.
+	 * @param xl used to initialize the starting position's x length
+	 * <br>requires: xl &ge; 0
+	 * @param yl used to initialize the starting position's y length
+	 * <br>requires: yl &ge; 0
+	 * @param xs used to initialize the starting position's x size
+	 * <br>requires: xs &ge; 0
+	 * @param ys used to initialize the starting position's y size
+	 * <br>requires: ys &ge; 0
+	 */
 	public Enemy(int xl, int yl, int xs, int ys) {
 		super(xl, yl, xs, ys);
 		if((int)Math.floor(Math.random()*2) == 1){
@@ -38,6 +61,9 @@ public class Enemy extends Entity {
 		this.name = Collide.addEntity("Enemy", location, size);
 	}
 
+	/**
+	 * ensures: the images being used for the enemy/zombie are stored properly.
+	 */
 	private static void loadSpriteOnce() {
 		if (triedLoad)
 			return;
@@ -54,7 +80,12 @@ public class Enemy extends Entity {
 			sprite = null;
 		}
 	}
-
+	
+	/**
+	 * ensures: The images saved earlier are transferred onto the new enemy while also putting out a backup sprite in case of failure. 
+	 * @param g2 used to offer an easy call to the graphics2D import
+	 * <br>requires: g2 &ge; Graphics2D
+	 */
 	public void draw(Graphics2D g2) {
 		if (sprite != null) {
 			// sprite replaces the circle
@@ -74,7 +105,14 @@ public class Enemy extends Entity {
 			g2.fillRect(position[0], position[1], size[0], size[1]);
 		}
 	}
-
+	
+	/**
+	 * ensures: The created enemy's position updates by the speed and location saved through Entity. 
+	 * @param worldWidth used to give access to the screen width
+	 * <br>requires: worldWidth &ge; 0
+	 * @param worldHeight used to give access to the screen height
+	 * <br>requires: worldHeight &ge; 0
+	 */
 	@Override
 	public void update(int worldWidth, int worldHeight) {
 
@@ -121,4 +159,4 @@ public class Enemy extends Entity {
 				
 		Collide.update(this.name, GetLocation(), GetSize());
 	}
-}
+}// end Enemy
