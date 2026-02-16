@@ -161,6 +161,17 @@ public class GameComponent extends JComponent {
 		}
 	}
 
+	
+	/*
+	 * Some Notes regarding the loading of levels:
+	 * When loading a level, there is a specific "Key" for loading a level from text file:
+	 * "-" -> Empty Tile
+	 * "P" -> Player Start Location
+	 * "E" -> Enemy Start Location
+	 * "W" -> Wall Tile
+	 * "G" -> Gem Location
+	 * "T" -> Trap Location
+	 */
 	private void loadLevel(int n) {
 		enemies.clear();
 		walls.clear();
