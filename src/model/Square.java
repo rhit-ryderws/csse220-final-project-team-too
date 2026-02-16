@@ -1,3 +1,9 @@
+/*
+ * Just FYI, this class isn't actually used for anything. We tested various aspects of the final code with this class, 
+ * but it is not specifically referenced by anything. It is not actually included in the UML diagram, since it is strictly
+ * speaking not used in the game.
+ */
+
 package model;
 
 import java.awt.Color;
