@@ -136,6 +136,7 @@ public class GameComponent extends JComponent {
 					break;
 				case KeyEvent.VK_R:
 					current_lives = 3;
+					level = 1;
 					loadLevel(1);
 					break;
 				}
